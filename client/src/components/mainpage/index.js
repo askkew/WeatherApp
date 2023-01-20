@@ -112,7 +112,7 @@ const Mainpage = ( { setUseLightMode } ) => {
     const [location, setLocation] = useState('');
     const [ isLoading, setIsLoading ] = useState(false);
     //basic weather data by city name
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=7402bcd03e0b88f6c75855bda3497673`
+    //const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=7402bcd03e0b88f6c75855bda3497673`
 
     //useless
     //const urltwo = `https://api.openweathermap.org/data/3.0/onecall?lat=${data.weather?data.coord?.lat:null}&lon=${data.weather?data.coord?.lon:null}&exclude=hourly,daily&appid=7402bcd03e0b88f6c75855bda3497673`
@@ -126,14 +126,14 @@ const Mainpage = ( { setUseLightMode } ) => {
 
     const handleSearch = () => {
         setIsLoading(true);
-        axios.get("/fetchWeather")
+        axios.get("/fetchWeather", { params: { location }})
             .then( response => {
                 console.log({ response })
                 if (response.statusText === 'OK') {
                     const { data } = response;
-                    const { IsDayLight } = data;
+                    const { IsDaylight } = data;
                     setIsLoading(false);
-                    setUseLightMode(IsDayLight)
+                    setUseLightMode(IsDaylight)
                     setData(data)
                 }
             })
