@@ -111,18 +111,6 @@ const Mainpage = ( { setUseLightMode } ) => {
     const [data, setData] = useState({})
     const [location, setLocation] = useState('');
     const [ isLoading, setIsLoading ] = useState(false);
-    //basic weather data by city name
-    //const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=7402bcd03e0b88f6c75855bda3497673`
-
-    //useless
-    //const urltwo = `https://api.openweathermap.org/data/3.0/onecall?lat=${data.weather?data.coord?.lat:null}&lon=${data.weather?data.coord?.lon:null}&exclude=hourly,daily&appid=7402bcd03e0b88f6c75855bda3497673`
-
-    //get city location key by name
-    //const locationkeyurl = `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=PJizTO8MMJqt62eaSX2GgHyWiC8zynwp=Jersey%20Village&alias=T`
-
-    //get city 12 hour forecast by location key name
-    //const forecasturl = `http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/2110204?apikey=PJizTO8MMJqt62eaSX2GgHyWiC8zynwp`
-
 
     const handleSearch = () => {
         setIsLoading(true);

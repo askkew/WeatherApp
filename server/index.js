@@ -4,21 +4,22 @@ const cors = require('cors');
 const axios = require('axios');
 const { query } = require('express');
 
-require('dotenv').config();
+//require('dotenv').config();
 
 const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
 //======================================================
-//const urltest = `https://api.openweathermap.org/data/2.5/weather?q=Houston&units=imperial&appid=7402bcd03e0b88f6c75855bda3497673`
-
 
 app.get("/fetchWeather", (req, res) => {
+    require('dotenv').config();
     console.log(req);
+    const openweatherKey = process.env.OPENWEATHER_KEY;
+    const accuweatherKey = process.env.ACCUWEATHER_KEY;
     const { location } = req.query;
-    const urltest = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=7402bcd03e0b88f6c75855bda3497673`
-    axios.get(urltest)
+    const currentconditionurl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${openweatherKey}`
+    axios.get(currentconditionurl)
         .then((response) => { // first data fetch
             const newDataObj = {};
             let nameKey = {};
@@ -37,7 +38,7 @@ app.get("/fetchWeather", (req, res) => {
         .then(({ newDataObj, nameKey }) => { // second data fetch
             let locationKey = {};
 
-            const locationkeyurl = `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=gAyHPjWdJEXlCTvAoETuhnVH8qaHQBIi&q=${nameKey}`
+            const locationkeyurl = `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${accuweatherKey}&q=${nameKey}`
             axios.get(locationkeyurl).then((response2) => {
                 if (response2?.data) {
                     const { Key } = response2.data[0];
@@ -47,7 +48,7 @@ app.get("/fetchWeather", (req, res) => {
 
             })
             .then(({ newDataObj, locationKey }) => { // third data fetch
-                const forecasturl = `http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/${locationKey}?apikey=gAyHPjWdJEXlCTvAoETuhnVH8qaHQBIi`
+                const forecasturl = `http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/${locationKey}?apikey=${accuweatherKey}`
                 axios.get(forecasturl).then((forecastResponse) => {
                     if (forecastResponse?.data) {
                         newDataObj.forecast = [];
